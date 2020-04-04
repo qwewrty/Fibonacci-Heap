@@ -1,7 +1,11 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
 
 /**
  * The Class hashtagcounter.
@@ -9,41 +13,41 @@ import java.util.*;
  * @author Sandeep S
  */
 public class hashtagcounter {
-    
+
     public static void main(String[] args) {
-        if(args.length < 1) {
+        if (args.length < 1) {
             throw new RuntimeException("Please provide input file as first argument.");
         }
         long startTime = System.currentTimeMillis();
         try (Scanner scanner = new Scanner(new File(args[0]))) {
             PrintStream fileOut = args.length == 2 ? new PrintStream(args[1]) : System.out;
             System.setOut(fileOut);
-            //Initiate hash map to store hashtag and its node.
+            // Initiate hash map to store hashtag and its node.
             Map<String, MaxFibHeap.Node> hashtagMap = new HashMap<>();
             // Initiate the max fibonacci heap.
             MaxFibHeap fibHeap = new MaxFibHeap();
 
             // Start reading the file
-            while(scanner.hasNext()) {
+            while (scanner.hasNext()) {
                 String line = scanner.nextLine();
 
-                if(line.startsWith("#")) {
+                if (line.startsWith("#")) {
                     // Line is a hashtag.
                     String[] arguments = line.split(" ");
                     String hashTag = arguments[0].substring(1);
                     int count = Integer.parseInt(arguments[1]);
                     // Check if its a recurring hashtag or a new one.
-                    if(hashtagMap.containsKey(hashTag)) {
+                    if (hashtagMap.containsKey(hashTag)) {
                         // Increase key if its recurring.
                         MaxFibHeap.Node node = hashtagMap.get(hashTag);
-                        fibHeap.increaseKey(node, node.getPriority() + count );
+                        fibHeap.increaseKey(node, node.getPriority() + count);
                     } else {
                         // Insert if its new.
                         MaxFibHeap.Node node = new MaxFibHeap.Node(hashTag, count);
                         fibHeap.insert(node);
                         hashtagMap.put(hashTag, node);
                     }
-                } else if(line.equalsIgnoreCase("stop")) {
+                } else if (line.equalsIgnoreCase("stop")) {
                     // End the reading.
                     break;
                 } else {
@@ -54,23 +58,23 @@ public class hashtagcounter {
                     // Array to store the hastags as a string and print.
                     String[] hashTags = new String[requiredNoOfHashTags];
                     // performing extract min operation requiredNoOfHashTags number of times.
-                    for(int i=0;i<requiredNoOfHashTags;i++) {
+                    for (int i = 0; i < requiredNoOfHashTags; i++) {
                         MaxFibHeap.Node max = fibHeap.extractMax();
-                        hashTags[i] = max.getData();
+                        hashTags[i] = max.getData() + max.getPriority();
                         nodesToReinsert.add(max);
                     }
                     // Print out the tags in the array seperated by commas.
                     System.out.println(String.join(",", hashTags));
                     // Reinsert the removed nodes.
-                    for(MaxFibHeap.Node node : nodesToReinsert) {
+                    for (MaxFibHeap.Node node : nodesToReinsert) {
                         fibHeap.insert(node);
                     }
                 }
             }
-        } catch(FileNotFoundException ex) {
+        } catch (FileNotFoundException ex) {
             System.err.println("The file specified could not be found in the given path");
         }
-        long endTime   = System.currentTimeMillis();
-        //System.out.println(endTime - startTime);
+        long endTime = System.currentTimeMillis();
+        // System.out.println(endTime - startTime);
     }
 }
