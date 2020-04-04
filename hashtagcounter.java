@@ -60,7 +60,7 @@ public class hashtagcounter {
                     // performing extract min operation requiredNoOfHashTags number of times.
                     for (int i = 0; i < requiredNoOfHashTags; i++) {
                         MaxFibHeap.Node max = fibHeap.extractMax();
-                        hashTags[i] = max.getData() + max.getPriority();
+                        hashTags[i] = max.getData();
                         nodesToReinsert.add(max);
                     }
                     // Print out the tags in the array seperated by commas.
