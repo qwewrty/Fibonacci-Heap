@@ -16,7 +16,7 @@ public class hashtagcounter {
         }
         long startTime = System.currentTimeMillis();
         try (Scanner scanner = new Scanner(new File(args[0]))) {
-            PrintStream fileOut = new PrintStream("output_file.txt");
+            PrintStream fileOut = args.length == 2 ? new PrintStream(args[1]) : System.out;
             System.setOut(fileOut);
             //Initiate hash map to store hashtag and its node.
             Map<String, MaxFibHeap.Node> hashtagMap = new HashMap<>();
