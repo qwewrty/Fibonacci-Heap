@@ -23,9 +23,9 @@ public class hashtagcounter {
             PrintStream fileOut = args.length == 2 ? new PrintStream(args[1]) : System.out;
             System.setOut(fileOut);
             // Initiate hash map to store hashtag and its node.
-            Map<String, MaxFibHeap.Node> hashtagMap = new HashMap<>();
+            Map<String, MaxFibonacciHeap.Node> hashtagMap = new HashMap<>();
             // Initiate the max fibonacci heap.
-            MaxFibHeap fibHeap = new MaxFibHeap();
+            MaxFibonacciHeap fibHeap = new MaxFibonacciHeap();
 
             // Start reading the file
             while (scanner.hasNext()) {
@@ -39,11 +39,11 @@ public class hashtagcounter {
                     // Check if its a recurring hashtag or a new one.
                     if (hashtagMap.containsKey(hashTag)) {
                         // Increase key if its recurring.
-                        MaxFibHeap.Node node = hashtagMap.get(hashTag);
+                        MaxFibonacciHeap.Node node = hashtagMap.get(hashTag);
                         fibHeap.increaseKey(node, node.getPriority() + count);
                     } else {
                         // Insert if its new.
-                        MaxFibHeap.Node node = new MaxFibHeap.Node(hashTag, count);
+                        MaxFibonacciHeap.Node node = new MaxFibonacciHeap.Node(hashTag, count);
                         fibHeap.insert(node);
                         hashtagMap.put(hashTag, node);
                     }
@@ -54,19 +54,19 @@ public class hashtagcounter {
                     // It is a query and has an integer.
                     int requiredNoOfHashTags = Integer.parseInt(line);
                     // List of nodes to reinsert.
-                    List<MaxFibHeap.Node> nodesToReinsert = new LinkedList<>();
+                    List<MaxFibonacciHeap.Node> nodesToReinsert = new LinkedList<>();
                     // Array to store the hastags as a string and print.
                     String[] hashTags = new String[requiredNoOfHashTags];
                     // performing extract min operation requiredNoOfHashTags number of times.
                     for (int i = 0; i < requiredNoOfHashTags; i++) {
-                        MaxFibHeap.Node max = fibHeap.extractMax();
+                        MaxFibonacciHeap.Node max = fibHeap.extractMax();
                         hashTags[i] = max.getData();
                         nodesToReinsert.add(max);
                     }
                     // Print out the tags in the array seperated by commas.
                     System.out.println(String.join(",", hashTags));
                     // Reinsert the removed nodes.
-                    for (MaxFibHeap.Node node : nodesToReinsert) {
+                    for (MaxFibonacciHeap.Node node : nodesToReinsert) {
                         fibHeap.insert(node);
                     }
                 }

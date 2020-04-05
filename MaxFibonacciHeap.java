@@ -10,7 +10,7 @@ import java.util.List;
  * 
  * @author Sandeep S
  */
-public class MaxFibHeap {
+public class MaxFibonacciHeap {
 
     /**
      * The Constant DEGREE_TABLE_SIZE.
@@ -347,7 +347,7 @@ public class MaxFibHeap {
      * @param heap2 the heap to merge.
      * @return the max fibonacci heap.
      */
-    public static MaxFibHeap merge(MaxFibHeap heap1, MaxFibHeap heap2) {
+    public static MaxFibonacciHeap merge(MaxFibonacciHeap heap1, MaxFibonacciHeap heap2) {
         if (null == heap2) {
             return heap1;
         }
