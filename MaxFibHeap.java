@@ -327,4 +327,38 @@ public class MaxFibHeap {
 			}
 		}
 	}
+
+    /**
+     * Removes the node from the fib heap.
+     *
+     * @param node the node
+     */
+    public void remove(Node node) {
+        increaseKey(node, Integer.MAX_VALUE);
+        extractMax();
+    }
+
+    /**
+     * Merge.
+     * 
+     * Merges heap2 into heap1.
+     *
+     * @param heap1 the heap to merge into.
+     * @param heap2 the heap to merge.
+     * @return the max fibonacci heap.
+     */
+    public static MaxFibHeap merge(MaxFibHeap heap1, MaxFibHeap heap2) {
+        if (null == heap2) {
+            return heap1;
+        }
+        if (null == heap1) {
+            return heap2;
+        }
+        mergeSiblingLists(heap1.max, heap2.max);
+        if (null == heap1.max || (null != heap2.max && heap2.max.getPriority() > heap1.max.getPriority())) {
+            heap1.max = heap2.max;
+        }
+        heap1.noOfNodes += heap2.noOfNodes;
+        return heap1;
+    }
 }
